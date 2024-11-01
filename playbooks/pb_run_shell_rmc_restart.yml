@@ -1,0 +1,35 @@
+---
+- name: Restart rmc subsystems
+  hosts: {{ VM_Name }}
+  gather_facts: False
+  become: yes
+  tasks:
+     -  name: Run cmd 1
+        shell: /usr/sbin/rsct/bin/rmcctrl -zc
+        register: command_output
+     -  debug:
+          var: command_output_1.stdout_lines
+
+    -  name: Run cmd 2
+       shell: /usr/sbin/rsct/bin/rmcctrl -dc
+       register: command_output
+    -  debug:
+         var: command_output_2.stdout_lines
+
+    -  name: Run cmd 3
+       shell: /usr/sbin/rsct/install/bin/recfgct -s
+       register: command_output
+    -  debug:
+         var: command_output_3.stdout_lines
+
+    -  name: Run cmd 4
+       shell: /usr/sbin/rsct/bin/rmcctrl -A
+       register: command_output
+    -  debug:
+         var: command_output_4.stdout_lines
+
+    -  name: Run cmd 5
+       shell: /usr/sbin/rsct/bin/rmcctrl -p
+       register: command_output
+    -  debug:
+         var: command_output_5.stdout_lines                     
