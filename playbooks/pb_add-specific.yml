@@ -1,0 +1,34 @@
+---
+- name: Add new 3PAR driver package
+  hosts: all
+  gather_facts: False
+  become: Yes
+
+  tasks:
+    - name: Verify Mountpoint 
+      file: 
+        path: /repo-aixts3pkg
+        state: directory
+        mode: 0755
+
+    - name: Mount Repo aixts3 pkg
+      command: mount devsehbg-ax0005.ikead2.com:/export/powcts2 /repo-aixts3pkg
+
+    - name: Install new 3PAR driver
+      installp:
+        name: devices.fcp.disk.3PAR.pcm
+        repository_path: /repo-aixts3pkg/PowerVM/2.3.0.0/drv/hpe
+        state: present
+      register: Install_Result  
+
+    - debug: 
+        var: Install_Result
+
+    - name: Unmount Repo aixts3 pkg
+      command: unmount /repo-aixts3pkg
+      when: 
+        - Install_Result.failed == false
+# the task unmount only gets run when failed is false from the installp module
+# the Install_Result is where we capture the output from the installp command
+# the debug is for debug :-) can be removed when plybooks is working
+

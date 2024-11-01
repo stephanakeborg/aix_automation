@@ -1,0 +1,10 @@
+---
+- name: Check for date
+  hosts: all
+  gather_facts: False
+  tasks:
+     -  command: date
+        register: command_output
+
+     -  debug:
+          var: command_output.stdout_lines

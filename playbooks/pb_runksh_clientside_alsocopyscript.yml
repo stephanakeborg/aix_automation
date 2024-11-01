@@ -1,0 +1,28 @@
+---
+- name: Copy and run the Netlatency script
+  hosts: all
+  become: Yes
+  gather_facts: True
+  tasks:
+     -  name: Copy script to client
+        copy:
+          src: /etc/ansible/playbooks/aix/scripts_for_clients/netlatency.ksh
+          dest: /ikea/pbin/netlatency.ksh
+          mode: 0755
+    
+     -  name: Run script towards NIM server
+        shell: /ikea/pbin/netlatency.ksh -i en1 -d devsehbg-ax0005.ikead2.com
+        register: command_output1
+        when: 
+          - ansible_nodename == "devsehbg-ax7000"
+
+     -  name: Run script towards NIM server 2
+        shell: /ikea/pbin/netlatency.ksh -i en0 -d devsehbg-ax0005.ikead2.com
+        register: command_output2
+        when: 
+          - ansible_nodename == "devsehbg-ax0117"
+
+     -  debug:
+          var: command_output1.stdout_lines
+     -  debug:
+          var: command_output2.stdout_lines

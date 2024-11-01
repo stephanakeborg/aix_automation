@@ -1,0 +1,10 @@
+---
+- name: Stop splunk SRC group
+  hosts: all
+  gather_facts: False
+  become: Yes
+  tasks:
+    -  service:
+         name: splunk
+         state: stopped
+         #register: command_output

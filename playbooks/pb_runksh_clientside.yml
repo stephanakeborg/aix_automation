@@ -1,0 +1,11 @@
+---
+- name: Find your HMC from AIX VM
+  hosts: devsehbg-ax7002 devsehbg-ax7000
+  gather_facts: False
+  tasks:
+     -  name: Run lshmc
+        shell: /ikea/pbin/lshmc
+        register: command_output
+
+     -  debug:
+          var: command_output.stdout_lines

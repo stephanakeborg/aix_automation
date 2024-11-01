@@ -1,0 +1,11 @@
+---
+- name: Remove SE agent package
+  hosts: all
+  gather_facts: False
+  become: Yes
+
+  tasks:
+    - installp:
+        name: ikea.seagent.cfg, ikea.APPQcime.rte
+        repository_path: /repo-aixts3pkg
+        state: absent

@@ -1,0 +1,3 @@
+---
+Descr: The stop sshd will disallow all ssh connections, however the ansible master can still run the startsrc 
+       command to start sshd on all VMs again due to private/public key.

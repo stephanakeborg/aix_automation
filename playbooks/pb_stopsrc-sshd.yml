@@ -1,0 +1,10 @@
+---
+- name: Stop sshd SRC group
+  hosts: all
+  gather_facts: False
+  become: Yes
+  tasks:
+    -  service:
+         name: sshd
+         state: stopped
+        #register: command_output

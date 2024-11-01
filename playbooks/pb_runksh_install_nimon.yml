@@ -1,0 +1,32 @@
+---
+- name: Installation of Nimon in CT/PT
+  hosts: ctseelm-axYYYYY
+ # hosts: localhost
+  gather_facts: False
+  become: Yes
+
+  tasks:
+    - name: Verify Mountpoint
+      file:
+        path: /mnt
+        state: directory
+        mode: 0755
+
+    - name: Mount Repo for Nimon
+      mount:
+        src: ppseelm-ax6001.ikeadta.com:/export/software/nimon
+        path: /mnt
+        fstype: jfs2
+        state: present
+
+    - name: Install Nimon
+      shell: /mnt/ninstall
+        register: command_output1
+        when:
+          - ansible_nodename == "ct*" or
+          - ansible_nodename == "cf*" or
+          - ansible_nodename == "pt*"
+        state: present
+
+     -  debug:
+          var: command_output.stdout_lines

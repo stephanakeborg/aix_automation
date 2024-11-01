@@ -1,0 +1,26 @@
+###### does not mount, maybe only control mounted fs from /etc/filesystems or like #######
+---
+- name: Add new 3PAR driver package
+  hosts: all
+  gather_facts: False
+  become: Yes
+
+  tasks:
+    - name: Verify Mountpoint 
+      file: 
+        path: /repo-aixts3pkg
+        state: directory
+        mode: 0755
+
+    - name: Mount Repo aixts3 pkg
+      mount: 
+        src: devsehbg-ax0005.ikead2.com:/export/powcts2 
+        path: /repo-aixts3pkg
+        fstype: jfs2
+        state: present
+
+    - name: Install new 3PAR driver
+      installp:
+        name: devices.fcp.disk.3PAR.pcm
+        repository_path: /repo-aixts3pkg/PowerVM/2.3.0.0/drv/hpe
+        state: present

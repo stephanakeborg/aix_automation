@@ -1,0 +1,10 @@
+---
+- name: Start splunk SRC group
+  hosts: all
+  gather_facts: False
+  become: Yes
+  tasks:
+    -  service:
+         name: splunk
+         state: started
+        #register: command_output

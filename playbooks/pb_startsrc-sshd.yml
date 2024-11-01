@@ -1,0 +1,10 @@
+---
+- name: Start sshd SRC group
+  hosts: all
+  gather_facts: False
+  become: Yes
+  tasks:
+    -  service:
+         name: sshd
+         state: started
+        #register: command_output

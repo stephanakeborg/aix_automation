@@ -1,0 +1,11 @@
+---
+- name: Check for HPE3PAR level
+  hosts: all
+  gather_facts: False
+#  become: yes
+  tasks:
+     -  command: lslpp -l |grep -i 3par
+        register: command_output
+
+     -  debug:
+          var: command_output.stdout_lines

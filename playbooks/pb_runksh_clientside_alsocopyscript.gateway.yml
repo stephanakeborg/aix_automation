@@ -1,0 +1,19 @@
+---
+- name: Copy and run the Netlatency script
+  hosts: all
+  become: Yes
+  gather_facts: True
+  tasks:
+     -  name: Copy script to client
+        copy:
+          src: /etc/ansible/playbooks/aix/scripts_for_clients/netlatency.ksh
+          dest: /ikea/pbin/netlatency.ksh
+          mode: 0755
+    
+     -  name: Run script towards Default Gateway
+        shell: /ikea/pbin/netlatency.ksh -i {{ ansible_facts.default_ipv4.device }} -d {{ ansible_facts.default_ipv4.gateway }} -c 10
+        register: command_output
+
+
+     -  debug:
+          var: command_output
